@@ -8,6 +8,8 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.IOException;
+
 @Getter
 public class CustomItem {
     @Getter(AccessLevel.NONE)
@@ -46,9 +48,19 @@ public class CustomItem {
     
     public void save() {
         ConfigurationSection section = plugin.getConfig().getConfigurationSection("items");
-        if (section == null) return;
+        if (section == null) {
+            section = plugin.getConfig().createSection("items");
+        }
         
-        section.set(getNamespacedID(), SerializeUtils.serialize(itemStack));
+        byte[] arr;
+        try {
+            arr = SerializeUtils.serialize(new SerializedCustomItem(namespace, id, itemStack.serializeAsBytes()));
+        } catch (IOException e) {
+            plugin.getLogger().severe(e.getMessage());
+            return;
+        }
+        
+        section.set(getNamespacedID(), arr);
         plugin.getConfig().set("items", section);
         plugin.saveConfig();
     }
@@ -56,6 +68,4 @@ public class CustomItem {
     public String getNamespacedID() {
         return namespace + ":" + id;
     }
-    
-    
 }

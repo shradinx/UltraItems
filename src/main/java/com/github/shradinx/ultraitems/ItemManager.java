@@ -9,6 +9,7 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +22,7 @@ public class ItemManager {
         this.plugin = plugin;
     }
     
-    public void setTag(@NotNull ItemStack item, String tag) {
+    private void setTag(@NotNull ItemStack item, String tag) {
         ItemMeta meta = item.getItemMeta();
         if (meta == null) return;
         
@@ -45,7 +46,16 @@ public class ItemManager {
         byte[] arr = (byte[]) section.get(namespacedID, null);
         if (arr == null) return null;
         
-        return (CustomItem) SerializeUtils.deserialize(arr);
+        SerializedCustomItem serialItem;
+        try {
+            serialItem = (SerializedCustomItem) SerializeUtils.deserialize(arr);
+        } catch (IOException | ClassNotFoundException e) {
+            plugin.getLogger().severe(e.getMessage());
+            return null;
+        }
+        
+        ItemStack itemStack = ItemStack.deserializeBytes(serialItem.item());
+        return create(itemStack, serialItem.namespace(), serialItem.id());
     }
     
     public List<CustomItem> loadAmount(String namespacedID, int amount) {
