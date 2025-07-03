@@ -1,6 +1,8 @@
 package com.github.shradinx.ultraitems;
 
+import com.github.shradinx.ultraitems.commands.CreateItemCommand;
 import com.github.shradinx.ultraitems.commands.GetItemCommand;
+import com.github.shradinx.ultraitems.commands.ReloadCommand;
 import com.github.shradinx.ultraitems.listener.ItemUseListener;
 import lombok.Getter;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -25,6 +27,8 @@ public final class UltraItems extends JavaPlugin {
         
         // Register commands
         new GetItemCommand(this, "getitem");
+        new CreateItemCommand(this, "createitem");
+        new ReloadCommand(this, "uireload");
         
         getLogger().info(String.format("%1$s Enabled!", getPluginMeta().getDisplayName()));
     }
