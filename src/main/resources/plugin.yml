@@ -1,6 +1,7 @@
 name: UltraItems
 version: '${version}'
 main: com.github.shradinx.ultraitems.UltraItems
+description: Custom items API for Minecraft Paper servers
 api-version: '1.21'
 author: Shradinx
 website: https://github.com/shradinx
@@ -11,7 +12,27 @@ commands:
       - getcustomitem
     permission: ultraitems.command.getitem
     permission-message: You do not have permission to use this command.
+  createitem:
+    description: Create a custom item
+    aliases:
+      - createcustomitem
+    permission: ultraitems.command.createitem
+    permission-message: You do not have permission to use this command.
+  uireload:
+    description: Reload the plugin config
+    aliases:
+      - ultraitemsreload
+    permission: ultraitems.admin.reload
+    permission-message: You do not have permission to use this command.
 permissions:
-  ultraitems.command.getitem:
-    description: Allows you to use the getitem command
+  ultraitems.command:
+    description: Allows you to use UltraItems commands
     default: op
+    children:
+      ultraitems.command.getitem: true
+      ultraitems.command.createitem: true
+  ultraitems.admin:
+    description: Admin permissions
+    default: op
+    children:
+      ultraitems.admin.reload: true
