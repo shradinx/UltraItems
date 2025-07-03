@@ -1,0 +1,17 @@
+name: UltraItems
+version: '${version}'
+main: com.github.shradinx.ultraitems.UltraItems
+api-version: '1.21'
+author: Shradinx
+website: https://github.com/shradinx
+commands:
+  getitem:
+    description: Get a custom item
+    aliases:
+      - getcustomitem
+    permission: ultraitems.command.getitem
+    permission-message: You do not have permission to use this command.
+permissions:
+  ultraitems.command.getitem:
+    description: Allows you to use the getitem command
+    default: op
