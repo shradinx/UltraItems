@@ -71,6 +71,13 @@ public class ItemManager {
         return items;
     }
     
+    public CustomItem load(ItemStack item) {
+        String tag = getTag(item);
+        if (tag == null) return null;
+        
+        return load(tag);
+    }
+    
     public CustomItem create(ItemStack item, String namespacedID) {
         CustomItem cItem = new CustomItem(plugin, item, namespacedID);
         setTag(cItem.getItemStack(), namespacedID);
